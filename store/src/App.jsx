@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage';
+import Home from './components/HomePage';
 import NavBar from './components/NavBar';
 import NotFound from './components/NotFound';
 import Users from './components/Users';
@@ -11,7 +11,7 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Home />} />
         <Route path="/users" element={<Users />} />
         <Route path="/user-todos/:userId" element={<UserTodos />} />
         <Route path="/user-form" element={<UserForm />} />
