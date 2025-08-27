@@ -4,13 +4,17 @@ import { Container } from 'react-bootstrap';
 import { Carousel } from 'react-bootstrap';
 
 function Home() {
-
-  return (
+  return(
     <Container>
       <Row>
         <Col>
           <h3>Welcome to The Fake Store</h3>
-          <p>The Fake Store is somewhat like George Costanza's Jerk Store. It's not a real store at all. But it is a good way to test an API front end. Enjoy browsing our full selection of non-existant products!</p>
+          <p>The Fake Store is somewhat like George Costanza's Jerk Store. 
+             It isn't a real store at all. Neither is the Fake Store a way to attempt to zing Riley. 
+             But that doesn't mean you can't still fly to Akron, OH with a large shrimp platter, anyway. 
+             What the Fake Store really is, is a good way to test an API front end. Enjoy 
+             browsing our full selection of non-existant products!
+          </p>
         </Col>
       </Row>
 
