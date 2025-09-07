@@ -1,4 +1,4 @@
-#Fake Store App#
+# Fake Store App
 
 The Fake Store App is a frontend to the Fake Store API. (fakestoreapi.com) This front end uses React components and features
 full CRUD functionality. That is, Create, Read, Update, and Delete operations.
