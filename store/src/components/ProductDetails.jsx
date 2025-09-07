@@ -10,9 +10,8 @@ function ProductDetails() {
   const [product, setProduct] = useState(null);  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  //const [updateVisible, setUpdateVisible] = useState(false);
-
-  // Fetch user and todos for the specific userId
+  const [showUpdate, setShowUpdate] = useState(false);
+  
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -47,12 +46,14 @@ function ProductDetails() {
   }
 
   if (error) return <p>{error}</p>;
-/*
-  {updateVisible && <div>
-    <Update />  
-    </div>
-  }
-*/
+
+  if(showUpdate) {return(
+      <Container>
+        <Update prod={product} />
+      </Container>
+      )
+    }
+
   return (
     <Container>
       <h1>Product Details</h1>
@@ -64,9 +65,12 @@ function ProductDetails() {
         <b>Description:</b><br></br> {product.description}
       </h4>
       <Button className="btn btn-success btn-lg m-2">Add to Cart</Button>
-      <Button className="btn btn-secondary btn-lg m-2">Update Item</Button>
+      <Button className="btn btn-secondary btn-lg m-2"
+                onClick={() => setShowUpdate(true)} 
+      >Update Item</Button>
       <Button href={`/delete-product/${product.id}`} className="btn btn-danger btn-lg m-2">Delete Item</Button>
     </Container>
+    
   );
 }
 

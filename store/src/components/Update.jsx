@@ -8,57 +8,47 @@ import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 
 const Update = (props) => {
-
-  const [productData, setProductData] = useState({
-    id: props.product.id,
-    image: props.product.image,
-    category: props.product.category,
-    price: props.product.title,
-  });
-
+  const [product, setProduct] = useState(props.prod);
   const [updatedProduct, setUpdatedProduct] = useState(null);
   const [validated, setValidated] = useState(false);
-  const [updating, setUpdating] = useState(true);
-  const [error, setError] = useState(null);
+  const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-
   const handleChange = (evt) => {
-    const { name, value } = evt.target;
-    setProductData({
-      ...productData,
-      [name]: value
-    });
-  };
+      const { name, value } = evt.target;
+      setProduct({
+        ...product,
+        [name]: value
+      });
+  }
 
   const handleSubmit = async (evt) => {
-    evt.preventDefault();
-
     const form = evt.currentTarget;
-    if (form.checkValidity() === false) {
+    setValidated(true);
+    if (form.checkValidity() === false){
       evt.stopPropagation();
-      setValidated(false);
     } else {
-
-        try { const response = await fetch(`https://fakestoreapi.com/products/${props.id}`, {
+        setUpdating(true);
+        try { const response = await fetch(`https://fakestoreapi.com/products/${props.prod.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({productData})
-              });
+                body: JSON.stringify(product)
+                });
               const updateData = await response.json();
               setUpdatedProduct(updateData);
               setSubmitted(true);
-              setError(false);
 
             } catch (err) {
-              setError(`Update to the API failed: ${err.message}`);
+              setErrorMessage(`Update to the API failed: ${err.message}`);
+              setError(true);
 
             } finally {
               setUpdating(false);
             }
-        }
-      }
-
+    }
+  }
     if (updating) {
     return (
       <Container>
@@ -77,11 +67,10 @@ const Update = (props) => {
 
   return (
     <Container className="mt-5">
+      {submitted && <Alert variant="success" dismissible>{updatedProduct.title} updated successfully!</Alert>}
+      {error && <Alert variant="danger" dismissible>{errorMessage}</Alert>}
+
       <h2>Update Product</h2>
-
-      {submitted && <Alert variant="success" dismissible>{updatedProduct.title}updated successfully!</Alert>}
-      {error && <Alert variant="danger" dismissible>{error}</Alert>}
-
       <Form onSubmit={handleSubmit} noValidate validated={validated}>
         <Row>
           <Col md="5">
@@ -91,7 +80,7 @@ const Update = (props) => {
                 type="text"
                 placeholder="Enter a product ID"
                 name="id"
-                value={productData.id}
+                value={product.id}
                 onChange={handleChange}
                 required
               />
@@ -108,7 +97,7 @@ const Update = (props) => {
                 type="text"
                 placeholder="Enter a product image uri"
                 name="image"
-                value={productData.image}
+                value={product.image}
                 onChange={handleChange}
                 required
               />
@@ -128,7 +117,7 @@ const Update = (props) => {
                 type="text"
                 placeholder="Enter a product category"
                 name="category"
-                value={productData.category}
+                value={product.category}
                 onChange={handleChange}
                 required
               />
@@ -145,7 +134,7 @@ const Update = (props) => {
                 type="text"
                 placeholder="Enter a product title"
                 name="title"
-                value={productData.title}
+                value={product.title}
                 onChange={handleChange}
                 required
               />
@@ -165,7 +154,7 @@ const Update = (props) => {
                 type="text"
                 placeholder="Enter a product price"
                 name="price"
-                value={productData.price}
+                value={product.price}
                 onChange={handleChange}
                 required
               />
@@ -182,7 +171,7 @@ const Update = (props) => {
                 type="text"
                 placeholder="Enter a product description"
                 name="description"
-                value={productData.description}
+                value={product.description}
                 onChange={handleChange}
                 required
               />
@@ -191,7 +180,6 @@ const Update = (props) => {
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
-          
         </Row>
 
         <Button variant="success" type="submit" className="mt-3">
@@ -200,7 +188,6 @@ const Update = (props) => {
       </Form>
     </Container>
   );
-
 }
 
 export default Update;  
